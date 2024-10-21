@@ -3,3 +3,4 @@ node_modules
 results.json
 coverage
 playwright-cucumber/cucumber_report.html
+.nyc_output
