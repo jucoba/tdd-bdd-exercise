@@ -11,7 +11,9 @@ run the front end
 ng serve
 
 1. npm install
-2. npm test
+2. npx playwright install
+3. npm test
+
 
 Output should be something like
 > cucumber-playwright-jc@1.0.0 test
