@@ -1,26 +1,28 @@
-import express, { Request, Response } from 'express';
-import cors from 'cors';
+import Fastify from 'fastify';
 
-const app = express();
+const app = Fastify({
+  logger: true
+});
 
-app.use(cors());
-
-app.get('/convert', (req, res) => {
-  const number = Number(req.query.number);
+app.get('/convert', async (request, reply) => {
+  const number = Number((request.query as any).number);
   console.log(`Received ${number}`);
-  let roman = ""
-  if (number == 1) {
-    
-    roman = "I"
+  let roman = "";
+  if (number === 1) {
+    roman = "I";
   }
   console.log(`Result ${roman}`);
 
-  res.json({ roman });
+  reply.send({ roman });
 });
 
 const PORT = 3000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+app.listen({ port: PORT }, (err, address) => {
+  if (err) {
+    console.error(err);
+    process.exit(1);
+  }
+  console.log(`Server running on ${address}`);
 });
 
 export default app;

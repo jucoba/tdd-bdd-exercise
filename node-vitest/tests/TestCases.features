@@ -1,0 +1,16 @@
+Feature: Convert Arabic numbers to Roman numerals
+
+  Scenario: Convert 2 to Roman numeral
+    Given I have the number 2
+    When I convert it to a Roman numeral
+    Then the result should be "II"
+
+  Scenario: Convert 3 to Roman numeral
+    Given I have the number 3
+    When I convert it to a Roman numeral
+    Then the result should be "III"
+
+  Scenario: Convert 4 to Roman numeral
+    Given I have the number 4
+    When I convert it to a Roman numeral
+    Then the result should be "IV"
