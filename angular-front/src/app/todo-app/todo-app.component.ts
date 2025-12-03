@@ -2,15 +2,7 @@ import { NgIf, CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-
-
-
-interface Task {
-  title: string;
-  description?: string;
-  completed: boolean;
-  state: 'pending' | 'completed';
-}
+import { Task, TodoService } from './todo.service';
 
 
 @Component({
@@ -27,24 +19,22 @@ export class TodoAppComponent implements OnInit {
   tasks: Task[] = [];
   showError: boolean = false;
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(private route: ActivatedRoute, private todoService: TodoService) {}
 
   ngOnInit(): void {
-    
+
     this.route.queryParams.subscribe(params => {
-      console.log("user name ", params['name'] || 'User'); 
+      console.log("user name ", params['name'] || 'User');
       this.userName = params['name'] || 'User';
     });
   }
 
   addTask(): void {
     if (this.newTaskTitle.trim()) {
-      const newTask: Task = {
-        title: this.newTaskTitle,
-        description: this.newTaskDescription,
-        completed: false,
-        state: 'pending',
-      };
+      const newTask: Task = this.todoService.createTask(
+        this.newTaskTitle,
+        this.newTaskDescription
+      );
       this.tasks.push(newTask);
       this.resetForm();
       this.showError = false;
