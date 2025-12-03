@@ -1,39 +1,46 @@
-<div class="todo-app">
-    <h1>{{ userName }}'s Todo List</h1>
-  
+<div class="todo-app" data-testid="todo-app-root">
+    <h1 data-testid="todo-title">{{ userName }}'s Todo List</h1>
+
     <div class="task-form">
       <h2>Add a New Task</h2>
       <input
         type="text"
         placeholder="Task Title (required)"
+        data-testid="task-title-input"
         [(ngModel)]="newTaskTitle"
       />
       <textarea
         placeholder="Task Description (optional)"
+        data-testid="task-description-input"
         [(ngModel)]="newTaskDescription"
       ></textarea>
-      <button (click)="addTask()">Add Task</button>
-      <p *ngIf="showError" class="error-message">Title is required to add a task.</p>
+      <button data-testid="add-task-button" (click)="addTask()">Add Task</button>
+      <p *ngIf="showError" class="error-message" data-testid="task-error">Title is required to add a task.</p>
     </div>
-  
+
     <div class="task-list">
       <h2>Tasks</h2>
       <ul>
-        <li *ngFor="let task of tasks" [class.completed]="task.completed">
+        <li
+          *ngFor="let task of tasks"
+          [class.completed]="task.completed"
+          data-testid="task-item"
+        >
           <input
             type="checkbox"
             [checked]="task.completed"
+            data-testid="task-complete-checkbox"
             (change)="toggleTaskCompletion(task)"
           />
           <strong>{{ task.title }}</strong>
           <p *ngIf="task.description">{{ task.description }}</p>
-          <span class="task-state">{{ task.state | uppercase }}</span>
+          <span class="task-state" data-testid="task-state">{{ task.state | uppercase }}</span>
         </li>
       </ul>
     </div>
-    <p class="pending-tasks-count">
+    <p class="pending-tasks-count" data-testid="pending-tasks-count">
       Pending tasks: {{ getPendingTasksCount() }}
     </p>
-  
+
   </div>
-  
+

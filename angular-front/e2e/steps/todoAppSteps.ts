@@ -17,18 +17,17 @@ Given('el usuario está en la página de inicio', async function (this: CustomWo
 });
 
 Then('El usuario debe ver {string}', async (message: string) => {
-  const welcomeText = await page.textContent('h1');
+  const welcomeText = await page.getByTestId('home-title').textContent();
   expect(welcomeText).toBe(message);
   browser.close();
 });
 
 When('El usuario ingresa {string} en el campo de nombre', async (name: string) => {
-  await page.waitForSelector('input[name="userName"]', { state: 'visible' });
-  await page.fill('input[name="userName"]', name);
+  await page.getByTestId('home-username-input').fill(name);
 });
 
 When('presiona el botón enviar', async () => {
-  await page.click('button[name="submitButon"]');
+  await page.getByTestId('home-submit-button').click();
 });
 
 Then('el usuario debe estar en la página de To Do', async () => {
@@ -36,7 +35,7 @@ Then('el usuario debe estar en la página de To Do', async () => {
 });
 
 Then('El título debe ser  {string}', async (title: string) => {
-  const titleText = await page.textContent('h1');
+  const titleText = await page.getByTestId('todo-title').textContent();
   expect(titleText).toBe(title);
 });
 
@@ -51,52 +50,52 @@ Given('el usuario está en la página de pendientes', async () => {
 });
 
 When('ingresa {string} como el título de una tarea', async (taskTitle: string) => {
-  await page.fill('input[placeholder="Task Title (required)"]', taskTitle);
+  await page.getByTestId('task-title-input').fill(taskTitle);
 });
 
 When('da click en el botón agregar tarea', async () => {
-  await page.click('button:has-text("Add Task")');
+  await page.getByTestId('add-task-button').click();
 });
 
 Then('la tarea debe aparecer en la lista', async () => {
-  const taskText = await page.textContent('.task-list li strong');
+  const taskText = await page.getByTestId('task-item').locator('strong').textContent();
   expect(taskText).toBe('Buy groceries');
 });
 
 
 Given('la tarea {string} está en la lista de pendientes', async (taskTitle: string) => {
-  await page.fill('input[placeholder="Task Title (required)"]', taskTitle);
-  await page.click('button:has-text("Add Task")');
+  await page.getByTestId('task-title-input').fill(taskTitle);
+  await page.getByTestId('add-task-button').click();
 });
 
 When('el usuario la marca como completada', async () => {
-  await page.click('.task-list li input[type="checkbox"]');
+  await page.getByTestId('task-complete-checkbox').click();
 });
 
 Then('la tarea debe estar {string}', async (state: string) => {
-  const stateText = await page.textContent('.task-list li .task-state');
+  const stateText = await page.getByTestId('task-state').textContent();
   expect(stateText).toBe(state);
 });
 
 Then('debe mostrar un mensaje de error que diga {string}', async (errorMessage: string) => {
-  const errorText = await page.textContent('.error-message');
+  const errorText = await page.getByTestId('task-error').textContent();
   expect(errorText).toBe(errorMessage);
 })
 
 When('el usuario de click en el botón de agregar tarea sin ingresar un título', async () => {
-  await page.click('button:has-text("Add Task")');
+  await page.getByTestId('add-task-button').click();
 })
 
 
 Given('el usuario tiene {int} tareas pendientes', async (taskCount: number) => {
   for (let i = 1; i <= taskCount; i++) {
-    await page.fill('input[name="taskTitle"]', `Task ${i}`);
-    await page.click('button[name="addTaskButton"]');
+    await page.getByTestId('task-title-input').fill(`Task ${i}`);
+    await page.getByTestId('add-task-button').click();
   }
 });
 
 Then('El contador de tareas pendientes debe ser {string}', async (count: string) => {
-  const pendingCountText = await page.textContent('.pending-tasks-count');
+  const pendingCountText = await page.getByTestId('pending-tasks-count').textContent();
   expect(pendingCountText).toBe(count);
 });
 
