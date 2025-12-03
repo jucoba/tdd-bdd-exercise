@@ -62,6 +62,16 @@ Then('la tarea debe aparecer en la lista', async () => {
   expect(taskText).toBe('Buy groceries');
 });
 
+When('ingresa una tarea sin título', async () => {
+  // Simulate user leaving the title empty (or only spaces)
+  await page.getByTestId('task-title-input').fill('   ');
+});
+
+Then('debe ver un mensaje de error', async () => {
+  const errorText = await page.getByTestId('task-error').textContent();
+  expect(errorText).toBe('Title is required to add a task.');
+});
+
 
 Given('la tarea {string} está en la lista de pendientes', async (taskTitle: string) => {
   await page.getByTestId('task-title-input').fill(taskTitle);
